@@ -47,6 +47,12 @@ app.directive('autocomplete', function() {
           return;
         }
 
+        if ($scope.searchParam.length < $scope.attrs.minchar) {
+          $scope.searchFilter = '';
+          $scope.completing = false;
+          return;
+        }
+
         if(watching && typeof $scope.searchParam !== 'undefined' && $scope.searchParam !== null) {
           $scope.completing = true;
           $scope.searchFilter = $scope.searchParam;
@@ -112,7 +118,8 @@ app.directive('autocomplete', function() {
         "id": "",
         "inputclass": "",
         "inputid": "",
-        "limit": 10
+        "limit": 10,
+        "minchar": 3
       };
 
       for (var a in attrs) {
@@ -126,7 +133,7 @@ app.directive('autocomplete', function() {
 
       if (attrs.clickActivation) {
         element[0].onclick = function(e){
-          if(!scope.searchParam){
+          if(scope.searchParam && typeof scope.searchParam !== 'undefined' && scope.searchParam !== null && scope.searchParam.length >= scope.attrs.minchar && scope.selectedIndex != -1){
             setTimeout(function() {
               scope.completing = true;
               scope.$apply();
