@@ -248,26 +248,9 @@ app.directive('autocomplete', function() {
 
       });
     },
-    template: '\
-        <div class="autocomplete {{ attrs.class }}" id="{{ attrs.id }}">\
-          <input\
-            type="text"\
-            ng-model="searchParam"\
-            placeholder="{{ attrs.placeholder }}"\
-            class="{{ attrs.inputclass }}"\
-            id="{{ attrs.inputid }}"\
-            ng-required="{{ autocompleteRequired }}" />\
-          <ul ng-show="completing && (suggestions | filter:searchFilter).length > 0">\
-            <li\
-              suggestion\
-              ng-repeat="suggestion in suggestions | filter:searchFilter | limitTo:attrs.limit | orderBy:\'toString()\' track by $index"\
-              index="{{ $index }}"\
-              val="{{ suggestion }}"\
-              ng-class="{ active: ($index === selectedIndex) }"\
-              ng-click="select(suggestion)"\
-              ng-bind-html="suggestion | highlight:searchParam"></li>\
-          </ul>\
-        </div>'
+    templateUrl: function(elem, attrs) {
+       return attrs.templateUrl || 'script/ac_template.html';
+    }
   };
 });
 
